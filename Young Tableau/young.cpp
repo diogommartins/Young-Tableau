@@ -77,6 +77,8 @@ bool young::remove(int &elem){
     if (!vazio()){
         elem = Y[0][0];
         Y[0][0] = INFINITO;
+        youngify(0, 0);
+        return true;
     }
     return false;
 }
@@ -91,4 +93,12 @@ bool young::insere(int valor){
         return true;
     }
     return false;
+}
+
+void young::imprime(){
+    for (int i=0; i<=m; i++){
+        for(int j=0; i<=n; i++)
+            cout << Y[i][j] << "\t";
+        cout << "\n";
+    }
 }
