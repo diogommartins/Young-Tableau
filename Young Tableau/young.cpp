@@ -53,14 +53,31 @@ bool young::cheio(){
 }
 
 void young::youngify(int i, int j){
+    int atual = Y[i][j];
+    int direita = (i+1 < m) ? Y[i+1][j] : INFINITO;
+    int abaixo = (j+1 < n) ? Y[i][j+1] : INFINITO;
     
+    if(!(direita==INFINITO && abaixo==INFINITO)){
+        if(abaixo < direita){
+            Y[i][j] = abaixo;
+            Y[i][j+1] = atual;
+            youngify(i, j+1);
+        }
+        else{
+            Y[i][j] = direita;
+            Y[i+1][j] = atual;
+            youngify(i+1, j);
+        }
+    }
 }
 /**
 5. Função bool remove(int & elem) para extrair o menor elemento do quadro. Uma vez que o menor elemento está sempre na posição Y [1, 1] (no caso da linguagem C, Y [0, 0] ) a função pode retornar o elemento armazenado em Y [1, 1] e fazer Y [1, 1] = ∞ para indicar que o elemento não existe mais. Entretanto, tal fato pode deixar o quadro inconsistente. Isso acontece quando Y [1, 1] = ∞ e o quadro não está vazio.
 */
 bool young::remove(int &elem){
-    elem = Y[0][0];
-    Y[0][0] = INFINITO;
+    if (!vazio()){
+        elem = Y[0][0];
+        Y[0][0] = INFINITO;
+    }
     return false;
 }
 
