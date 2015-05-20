@@ -22,3 +22,14 @@ young::young(int linhas, int colunas){
             Y[i][j] = INT_MAX;
 }
 
+/**
+2. O destrutor libera a memória alocada para a matriz Y .
+*/
+young::~young(){
+    delete Y;
+}
+
+/**
+ 3. Função bool vazio() retorna true se o quadro está vazio e false,
+ caso contrário.
+*/
