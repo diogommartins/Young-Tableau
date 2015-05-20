@@ -37,15 +37,19 @@ bool young::vazio(){
     for (int i=0; i<=m; i++)
         for(int j=0; i<=n; i++)
             if (Y[i][j] != INT_MAX)
-                return false;
-    return true;
+                return false;       // Se achou pelo menos uma posição preenchida
+    return true;                    // Não achou nenhuma posição preenchida
 }
 
 /**
 4. Função bool cheio() retorna true se o quadro está cheio e false, caso contrário.
 */
 bool young::cheio(){
-    return false;
+    for (int i=0; i<=m; i++)
+        for(int j=0; i<=n; i++)
+            if (Y[i][j] == INT_MAX)
+                return false;       // Se achou pelo menos uma posição vazia
+    return true;                    // Não achou nenhuma posição vazia
 }
 
 /**
