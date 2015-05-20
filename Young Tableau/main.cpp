@@ -27,6 +27,7 @@ int Menu(){
 }
 
 int main(int argc, const char * argv[]) {
+    young young_table = young(4, 4);
     int item, escolha;
     bool fim = false;
     
@@ -36,10 +37,21 @@ int main(int argc, const char * argv[]) {
                 fim = true;
                 break;
             case 1:
+                cout << "Entre com elemento para inserir: ";
+                cin >> item;
+                if (young_table.insere(item))
+                    cout << "Elemento inserido com sucesso\n";
+                else
+                    cout << "Erro ao inserir o elemento " << item << "\n";
                 break;
             case 2:
+                if (young_table.remove(item))
+                    cout << "Elemento " << item << " removido\n";
+                else
+                    cout << "Erro ao remover elemento.\n";
                 break;
             case 3:
+                young_table.imprime();
                 break;
             default:
                 break;
