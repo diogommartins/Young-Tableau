@@ -61,9 +61,19 @@ bool tem_esquerda(int &coluna)
     return (coluna - 1 >= 0);
 }
 
+bool tem_direita(int &coluna, int &n)
+{
+    return (coluna + 1 <= n);
+}
+
 bool tem_topo(int &linha)
 {
     return (linha - 1 >= 0);
+}
+
+bool tem_abaixo(int &linha, int &m)
+{
+    return (linha + 1 <= m);
 }
 
 void young::youngify(int i, int j){
@@ -82,6 +92,35 @@ void young::youngify(int i, int j){
         youngify(i, j-1);
     }
 }
+
+void troca(int &a, int &b)
+{
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+void youngfy_remove(int **Y, int i, int j, int &m, int &n)
+{
+    int menor_i = i;
+    int menor_j = j;
+    
+    if (i+1 <= m && (Y[i][j] > Y[i+1][j]))
+    {
+        menor_i = i+1;
+        menor_j = j;
+    }
+    if (j+1 <= n && (Y[menor_i][menor_j] > Y[i][j+1]))
+    {
+        menor_i = i;
+        menor_j = j+1;
+    }
+    if ((menor_i != i) || (menor_j != j))
+    {
+        troca(Y[i][j], Y[menor_i][menor_j]);
+        youngfy_remove(Y, menor_i, menor_j, m, n);
+    }
+}
 /**
 5. Função bool remove(int & elem) para extrair o menor elemento do quadro. Uma vez que o menor elemento está sempre na posição Y [1, 1] (no caso da linguagem C, Y [0, 0] ) a função pode retornar o elemento armazenado em Y [1, 1] e fazer Y [1, 1] = ∞ para indicar que o elemento não existe mais. Entretanto, tal fato pode deixar o quadro inconsistente. Isso acontece quando Y [1, 1] = ∞ e o quadro não está vazio.
 */
@@ -89,7 +128,7 @@ bool young::remove(int &elem){
     if (!vazio()){
         elem = Y[0][0];
         Y[0][0] = INFINITO;
-        youngify(0, 0);
+        youngfy_remove(Y, 0, 0, m, n);
         return true;
     }
     return false;
