@@ -17,8 +17,12 @@ young::young(int linhas, int colunas){
     m = linhas;
     n = colunas;
     
-    for (int i=0; i<=m; i++)
-        for(int j=0; i<=n; i++)
+    Y = new int*[m];
+    for (int i=0; i<m; i++)
+        Y[i] = new int[n];
+    
+    for (int i=0; i<m; i++)
+        for(int j=0; j<n; j++)
             Y[i][j] = INFINITO;
 }
 
@@ -96,8 +100,8 @@ bool young::insere(int valor){
 }
 
 void young::imprime(){
-    for (int i=0; i<=m; i++){
-        for(int j=0; i<=n; i++)
+    for (int i=0; i<m; i++){
+        for(int j=0; j<n; j++)
             cout << Y[i][j] << "\t";
         cout << "\n";
     }
