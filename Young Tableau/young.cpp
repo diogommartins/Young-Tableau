@@ -50,30 +50,61 @@ bool young::vazio(){
 */
 bool young::cheio(){
     for (int i=0; i<=m; i++)
-        for(int j=0; i<=n; i++)
+        for(int j=0; j<=n; j++)
             if (Y[i][j] == INFINITO)
                 return false;       // Se achou pelo menos uma posição vazia
     return true;                    // Não achou nenhuma posição vazia
 }
 
-void young::youngify(int i, int j){
-    int atual = Y[i][j];
-    int direita = (i+1 < m) ? Y[i+1][j] : INFINITO;
-    int abaixo = (j+1 < n) ? Y[i][j+1] : INFINITO;
-    
-    if(!(direita==INFINITO && abaixo==INFINITO)){
-        if(abaixo < direita){
-            Y[i][j] = abaixo;
-            Y[i][j+1] = atual;
-            youngify(i, j+1);
-        }
-        else{
-            Y[i][j] = direita;
-            Y[i+1][j] = atual;
-            youngify(i+1, j);
-        }
-    }
+bool tem_esquerda(int &coluna)
+{
+    return (coluna - 1 >= 0);
 }
+
+bool tem_topo(int &linha)
+{
+    return (linha - 1 >= 0);
+}
+
+void young::youngify(int i, int j){
+    if(tem_esquerda(j) && (Y[i][j-1] > Y[i][j]))
+    {
+        int atual = Y[i][j];
+        Y[i][j] = Y[i][j-1];
+        Y[i][j-1] = atual;
+        youngify(i, j-1);
+    }
+    if (tem_topo(i) && (Y[i-1][j] > Y[i][j]))
+    {
+        int atual = Y[i][j];
+        Y[i][j] = Y[i-1][j];
+        Y[i-1][j] = atual;
+        youngify(i-1, j);
+    }
+    imprime();
+}
+
+//void young::youngify(int i, int j){
+//    imprime();
+//    if (i>m || j>n)
+//        return;
+//    int x = -1, y = -1;
+//    if(i+1 < m && Y[i+1][j] < Y[i][j])
+//    {
+//        Y[i][j] = Y[1+i][j];
+//        x = i+1;
+//        y = j;
+//    }
+//    if(j+1 < n && Y[i][j+1] < Y[i][j])
+//    {
+//        Y[i][j] = Y[i][j+1];
+//        x = i;
+//        y = j+1;
+//    }
+//    if(x!=-1)
+//        Y[x][y] = INFINITO;
+//    youngify(x, y);
+//}
 /**
 5. Função bool remove(int & elem) para extrair o menor elemento do quadro. Uma vez que o menor elemento está sempre na posição Y [1, 1] (no caso da linguagem C, Y [0, 0] ) a função pode retornar o elemento armazenado em Y [1, 1] e fazer Y [1, 1] = ∞ para indicar que o elemento não existe mais. Entretanto, tal fato pode deixar o quadro inconsistente. Isso acontece quando Y [1, 1] = ∞ e o quadro não está vazio.
 */
@@ -93,16 +124,23 @@ bool young::remove(int &elem){
 bool young::insere(int valor){
     if (!cheio()){
         Y[m-1][n-1] = valor;
-        // Younnify
+        youngify(m-1, n-1);
         return true;
     }
     return false;
 }
 
+string human_representation(int &valor){
+    if (valor != INFINITO)
+        return to_string(valor);
+    return "∞";
+}
+
 void young::imprime(){
     for (int i=0; i<m; i++){
         for(int j=0; j<n; j++)
-            cout << Y[i][j] << "\t";
+            cout << human_representation(Y[i][j]) << "\t";
         cout << "\n";
     }
+    cout << "\n";
 }
