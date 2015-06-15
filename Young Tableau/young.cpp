@@ -61,19 +61,9 @@ bool tem_esquerda(int &coluna)
     return (coluna - 1 >= 0);
 }
 
-bool tem_direita(int &coluna, int &n)
-{
-    return (coluna + 1 <= n);
-}
-
 bool tem_topo(int &linha)
 {
     return (linha - 1 >= 0);
-}
-
-bool tem_abaixo(int &linha, int &m)
-{
-    return (linha + 1 <= m);
 }
 
 void young::youngify(int i, int j){
